@@ -27,14 +27,7 @@ For [Vundle](http://github.com/VundleVim/Vundle.Vim) users:
 Plugin 'caglartoklu/qb64dev.vim'
 ```
 
-For [Pathogen](https://github.com/tpope/vim-pathogen) users:
-
-```
-cd ~/.vim/bundle
-git clone git://github.com/caglartoklu/qb64dev.vim
-```
-
-For all other users, simply drop the [plugin\qb64dev.vim](plugin\qb64dev.vim) file to your `plugin` directory.
+For all other users, simply drop the [plugin/qb64dev.vim](plugin/qb64dev.vim) file to your `plugin` directory.
 
 
 # Configuration
