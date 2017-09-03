@@ -1,4 +1,4 @@
-# QB64Dev.vim
+# qb64dev.vim
 
 Opens and compiles `.bas` files with [QB64](http://www.qb64.net/) within Vim.
 
