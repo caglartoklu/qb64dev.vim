@@ -62,17 +62,23 @@ let g:qb64dev_autofind_qb64 = 1
 Compiles the `.bas` file in Vim buffer with QB64.
 The executable file will be in the same path as the `.bas` file.
 
+![qb64compile](https://user-images.githubusercontent.com/2071639/30004685-90d35978-90dc-11e7-9441-d0c395ae16bf.gif)
+
 
 ### `QB64Run`
 
 Compiles and runs the `.bas` file in Vim buffer with QB64.
 The executable file will be in the same path as the `.bas` file.
 
+![qb64run](https://user-images.githubusercontent.com/2071639/30004688-952904fa-90dc-11e7-871b-68a9c1e603a9.gif)
+
 
 ### `QB64Open`
 
 Opens the current buffer in QB64 IDE.
 This can be useful to squash a bug or use the inline help system in QB64 IDE.
+
+![qb64open](https://user-images.githubusercontent.com/2071639/30004689-99605b40-90dc-11e7-84f5-759f5cb5d934.gif)
 
 
 # FAQ
