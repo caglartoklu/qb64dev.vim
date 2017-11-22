@@ -46,7 +46,7 @@ function! s:StrRight(input_string, length)
 endfunction
 
 
-function! QB64Dev#FileExists(file_name)
+function! qb64dev#FileExists(file_name)
     " Returns 1 if the file exists, 0 otherwise.
     let result = 0
     if filereadable(a:file_name)
@@ -56,14 +56,14 @@ function! QB64Dev#FileExists(file_name)
 endfunction
 
 
-function! QB64Dev#ExeName()
+function! qb64dev#ExeName()
     " Returns the executable name of QB64.
     " '.exe' is not added for Linux and Mac compatibility.
     return 'qb64'
 endfunction
 
 
-function! QB64Dev#QB64Dir()
+function! qb64dev#QB64Dir()
     " Returns the directory of QB64.
 
     let result = ""
@@ -98,22 +98,22 @@ function! QB64Dev#QB64Dir()
 endfunction
 
 
-function! QB64Dev#QB64ExePath()
+function! qb64dev#QB64ExePath()
     " Returns the path to QB64 IDE/compiler.
-    let result = QB64Dev#QB64Dir()
+    let result = qb64dev#QB64Dir()
     if s:StrRight(result, 1) == '/'
-        let result = result . QB64Dev#ExeName()
+        let result = result . qb64dev#ExeName()
     elif s:StrRight(result, 1) == '\\'
-        let result = result . QB64Dev#ExeName()
+        let result = result . qb64dev#ExeName()
     else
-        let result = result . '/' . QB64Dev#ExeName()
+        let result = result . '/' . qb64dev#ExeName()
     endif
-    " Decho 'QB64Dev#QB64ExePath() : ' . result
+    " Decho 'qb64dev#QB64ExePath() : ' . result
     return result
 endfunction
 
 
-function! QB64Dev#QB64Compile()
+function! qb64dev#QB64Compile()
     " Compiles the current file with QB64.
     " http://www.qb64.net/forum/index.php?topic=3893.0
     " -c    Compile file
@@ -126,18 +126,18 @@ function! QB64Dev#QB64Compile()
     " -- can be used as a dummy option to force the next thing to be a file (ordinaraily, -crapfile.bas would be interpreted as the -c switch)
     let curdir = getcwd()
     let currentfilename = expand("%:p")
-    let qb64dir = QB64Dev#QB64Dir()
+    let qb64dir = qb64dev#QB64Dir()
     " Decho 'qb64dir : ' . qb64dir
     " exec 'cd ' . qb64dir
-    call system(QB64Dev#ExeName() .' -c ' . currentfilename)
+    call system(qb64dev#ExeName() .' -c ' . currentfilename)
     " exec 'cd ' . curdir
 endfunction
-command! -nargs=0 QB64Compile : call QB64Dev#QB64Compile()
+command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
 
 
-function! QB64Dev#QB64Run()
+function! qb64dev#QB64Run()
     " Compiles and then runs the current file with QB64.
-    call QB64Dev#QB64Compile()
+    call qb64dev#QB64Compile()
 
     let currentfilename = expand("%:p")
     " remove the last .bas extension from file name:
@@ -146,15 +146,15 @@ function! QB64Dev#QB64Run()
     " the remainder should be the name of the exe file.
     call system(exefilename)
 endfunction
-command! -nargs=0 QB64Run : call QB64Dev#QB64Run()
+command! -nargs=0 QB64Run : call qb64dev#QB64Run()
 
 
-function! QB64Dev#QB64Open()
+function! qb64dev#QB64Open()
     " Opens the current file with QB64 IDE.
     let currentfilename = expand("%:p")
-    call system(QB64Dev#QB64ExePath() . ' ' . currentfilename)
+    call system(qb64dev#QB64ExePath() . ' ' . currentfilename)
 endfunction
-command! -nargs=0 QB64Open : call QB64Dev#QB64Open()
+command! -nargs=0 QB64Open : call qb64dev#QB64Open()
 
 
 " mark that plugin loaded
