@@ -89,7 +89,7 @@ Technically no, but, without QB64 itself, this plugin would be pointless.
 
 ### Why would I use qb64dev.vim instead of official QB64 IDE?
 
-QB64 IDE has its own advantages like code formatting, showing errors, and built-in help as in QuickBASIC. But, if you use Vim for all your coding, you may want to use it for QuickBASIC as well. And, qb64.vim provides a way to use it.
+QB64 IDE has its own advantages like code formatting, showing errors, and built-in help as in QuickBASIC. But, if you use Vim for all your coding, you may want to use it for QuickBASIC as well. And, qb64dev.vim provides a way to use it.
 
 ### What is the name of the colorscheme in screenshots?
 
