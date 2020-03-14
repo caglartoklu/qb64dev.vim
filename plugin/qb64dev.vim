@@ -30,19 +30,21 @@ function! s:SetDefaultSettings()
 endfunction
 
 
-function! s:StrRight(input_string, length)
-    " Returns the rightmost n characters of a string.
-    let length2 = a:length
-    if (length2 < 0)
-        let length2 = 0
-    endif
-    let result = a:input_string
-    if length2 < strlen(a:input_string)
-        let istart = strlen(a:input_string) - length2
-        " strpart( {src}, {start}[, {len}])
-        let result = strpart(a:input_string, istart, length2)
-    endif
-    return result
+function! s:StrRight(haystack, needleLength)
+    " Returns some characters at the end of a string
+    " from the right side, just like Visual Basic.
+    " let x = s:Right("abc", 0)
+    " Decho x " ''
+    " let x = s:Right("abc", 1)
+    " Decho x " 'c'
+    " let x = s:Right("abc", 2)
+    " Decho x " 'bc'
+    " let x = s:Right("abc", 3)
+    " Decho x " 'abc'
+    " let x = s:Right("abc", 5)
+    " Decho x " 'abc'
+    let iStart = strlen(a:haystack) - a:needleLength
+    return strpart(a:haystack, iStart, a:needleLength)
 endfunction
 
 
@@ -74,13 +76,15 @@ function! qb64dev#QB64Dir()
             if g:qb64dev_autofind_qb64 == 1
                 let candidate_directories = []
                 call add(candidate_directories, 'C:\\QB64')
-                call add(candidate_directories, 'C:\\qb64-1.1-20170120.51-win')
                 call add(candidate_directories, 'C:\\bin\\QB64')
-                call add(candidate_directories, 'C:\\bin\\qb64-1.1-20170120.51-win')
                 call add(candidate_directories, 'C:\\Program Files\\QB64')
-                call add(candidate_directories, 'C:\\Program Files\\qb64-1.1-20170120.51-win')
                 call add(candidate_directories, 'C:\\Program Files (x86)\\QB64')
-                call add(candidate_directories, 'C:\\Program Files (x86)\\qb64-1.1-20170120.51-win')
+                call add(candidate_directories, 'C:\\PortableApps\\qb64')
+                call add(candidate_directories, 'D:\\QB64')
+                call add(candidate_directories, 'D:\\bin\\QB64')
+                call add(candidate_directories, 'D:\\Program Files\\QB64')
+                call add(candidate_directories, 'D:\\Program Files (x86)\\QB64')
+                call add(candidate_directories, 'D:\\PortableApps\\qb64')
                 " TODO: 5 add Linux directories here.
                 " TODO: 6 check if there is a qb64 executable on path,
                 " locate it with `which`, and extract its directory.
@@ -94,6 +98,7 @@ function! qb64dev#QB64Dir()
             endif
         endif
     endif
+    " Decho "result: " . result
     return result
 endfunction
 
@@ -101,9 +106,11 @@ endfunction
 function! qb64dev#QB64ExePath()
     " Returns the path to QB64 IDE/compiler.
     let result = qb64dev#QB64Dir()
-    if s:StrRight(result, 1) == '/'
+    " ==? is the case-insensitive no matter what the user has set
+    " https://learnvimscriptthehardway.stevelosh.com/chapters/22.html
+    if s:StrRight(result, 1) ==? '/'
         let result = result . qb64dev#ExeName()
-    elif s:StrRight(result, 1) == '\\'
+    elseif s:StrRight(result, 1) ==? '\'
         let result = result . qb64dev#ExeName()
     else
         let result = result . '/' . qb64dev#ExeName()
@@ -129,7 +136,7 @@ function! qb64dev#QB64Compile()
     let qb64dir = qb64dev#QB64Dir()
     " Decho 'qb64dir : ' . qb64dir
     " exec 'cd ' . qb64dir
-    call system(qb64dev#ExeName() .' -c ' . currentfilename)
+    call system(qb64dev#QB64ExePath() . ' -c ' . currentfilename)
     " exec 'cd ' . curdir
 endfunction
 command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
