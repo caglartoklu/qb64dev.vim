@@ -122,6 +122,7 @@ endfunction
 
 function! qb64dev#QB64Compile()
     " Compiles the current file with QB64.
+
     " http://www.qb64.net/forum/index.php?topic=3893.0
     " -c    Compile file
     " -x    As -c, but use the console instead of a graphical window for progress reporting. My favourite.
@@ -131,11 +132,33 @@ function! qb64dev#QB64Compile()
     " All switches imply -c; -z and -q imply -x.
     " Options must proceed the filename.
     " -- can be used as a dummy option to force the next thing to be a file (ordinaraily, -crapfile.bas would be interpreted as the -c switch)
+
+    " source file 'test.bas'
+    "     print 10
+    "     var1 = NOTDEFINED1$()
+    "     var2 = NOTDEFINED2$()
+    "     print 20
+
+    " compilation:
+    "     qb64 -x c:\full\path\to\test.bas
+    "     QB64 Compiler V1.4
+    "
+    "     Beginning C++ output from QB64 code... first pass finished.
+    "     Translating code...
+    "     [................                                  ] 33%
+    "     Illegal string-number conversion
+    "     Caused by (or after):VAR1 = NOTDEFINED1$ ( )
+    "     LINE 2:var1 = NOTDEFINED1$()
+
     let curdir = getcwd()
     let currentfilename = expand("%:p")
     let qb64dir = qb64dev#QB64Dir()
     " Decho 'qb64dir : ' . qb64dir
     " exec 'cd ' . qb64dir
+
+    " why used '-c' instead of '-x' ?
+    " because, -x uses console and there is key press, and the output can not be seen by user.
+    " on the other hand, `-c` uses graphical window and waits for key press.
     call system(qb64dev#QB64ExePath() . ' -c ' . currentfilename)
     " exec 'cd ' . curdir
 endfunction
@@ -143,8 +166,7 @@ command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
 
 
 function! qb64dev#QB64Run()
-    " Compiles and then runs the current file with QB64.
-    call qb64dev#QB64Compile()
+    " Runs the compiled exe file.
 
     let currentfilename = expand("%:p")
     " remove the last .bas extension from file name:
@@ -154,6 +176,14 @@ function! qb64dev#QB64Run()
     call system(exefilename)
 endfunction
 command! -nargs=0 QB64Run : call qb64dev#QB64Run()
+
+
+function! qb64dev#QB64CompileAndRun()
+    " Compiles and then runs the current file with QB64.
+    call qb64dev#QB64Compile()
+    call qb64dev#QB64Run()
+endfunction
+command! -nargs=0 QB64CompileAndRun : call qb64dev#QB64CompileAndRun()
 
 
 function! qb64dev#QB64Open()
