@@ -171,7 +171,7 @@ function! qb64dev#QB64Compile()
     "     LINE 2:var1 = NOTDEFINED1$()
 
     let curdir = getcwd()
-    let currentfilename = expand("%:p")
+    let currentfilename = shellescape(expand("%:p"))
     let qb64dir = qb64dev#QB64Dir()
     " Decho 'qb64dir : ' . qb64dir
     " exec 'cd ' . qb64dir
@@ -188,7 +188,7 @@ command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
 function! qb64dev#QB64Run()
     " Runs the compiled exe file.
 
-    let currentfilename = expand("%:p")
+    let currentfilename = shellescape(expand("%:p"))
     " remove the last .bas extension from file name:
     let exefilename = substitute(currentfilename, '\.\(b\|B\)\(a\|\A\)\(s\|S\)$', '', '')
 
@@ -208,7 +208,7 @@ command! -nargs=0 QB64CompileAndRun : call qb64dev#QB64CompileAndRun()
 
 function! qb64dev#QB64Open()
     " Opens the current file with QB64 IDE.
-    let currentfilename = expand("%:p")
+    let currentfilename = shellescape(expand("%:p"))
     call system(qb64dev#QB64ExePath() . ' ' . currentfilename)
 endfunction
 command! -nargs=0 QB64Open : call qb64dev#QB64Open()
