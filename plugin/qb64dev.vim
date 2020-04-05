@@ -85,6 +85,43 @@ function! qb64dev#ExeName()
 endfunction
 
 
+function! s:DetectOs()
+    let resultOs = ''
+    if has('win16') || has('win32') || has('win64')
+        let resultOs = 'windows'
+    elseif has('unix')
+        " http://en.wikipedia.org/wiki/Uname
+        if system('uname')=~'Darwin'
+            let resultOs = 'macosx'
+        elseif system('uname')=~'FreeBSD'
+            let resultOs = 'freebsd'
+        else
+            let resultOs = 'linux'
+        endif
+    endif
+    return resultOs
+endfunction
+
+
+function! qb64dev#OutputExe()
+    " Modifiers:
+    " 	:p		expand to full path
+    " 	:h		head (last path component removed)
+    " 	:t		tail (last path component only)
+    " 	:r		root (one extension removed)
+    " 	:e		extension only
+
+    let osystem = s:DetectOs()
+    let file1 = "UNDETECTED"
+    if osystem == "windows"
+        let file1 = shellescape(expand("%:p:r") . ".exe")
+    elseif osystem == "unix"
+        let file1 = shellescape(expand("%:p:r") . ".out")
+    endif
+    return file1
+endfunction
+
+
 function! qb64dev#QB64Dir()
     " Returns the directory of QB64.
 
@@ -179,7 +216,7 @@ function! qb64dev#QB64Compile()
     " why used '-c' instead of '-x' ?
     " because, -x uses console and there is key press, and the output can not be seen by user.
     " on the other hand, `-c` uses graphical window and waits for key press.
-    call system(qb64dev#QB64ExePath() . ' -c ' . currentfilename)
+    call system(qb64dev#QB64ExePath() . ' -c ' . currentfilename . ' -o ' . qb64dev#OutputExe())
     " exec 'cd ' . curdir
 endfunction
 command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
@@ -188,9 +225,10 @@ command! -nargs=0 QB64Compile : call qb64dev#QB64Compile()
 function! qb64dev#QB64Run()
     " Runs the compiled exe file.
 
-    let currentfilename = shellescape(expand("%:p"))
+    " let currentfilename = shellescape(expand("%:p"))
     " remove the last .bas extension from file name:
-    let exefilename = substitute(currentfilename, '\.\(b\|B\)\(a\|\A\)\(s\|S\)$', '', '')
+    " let exefilename = substitute(currentfilename, '\.\(b\|B\)\(a\|\A\)\(s\|S\)$', '', '')
+    let exefilename = qb64dev#OutputExe()
 
     " the remainder should be the name of the exe file.
     call system(exefilename)
