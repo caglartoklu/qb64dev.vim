@@ -1,6 +1,6 @@
 # qb64dev.vim
 
-A Vim mode to edit QB64 BASIC files, including commands to opens/compiles/run them with QB64 IDE.
+A Vim mode to edit [QB64](http://www.qb64.org/) BASIC files, including commands to opens/compiles/run them with QB64 IDE.
 
 See the _commands_ section below for screenshots and features.
 
@@ -16,7 +16,7 @@ See more on [QB64 on Wikipedia](https://en.wikipedia.org/wiki/QB64).
 
 # Requirements
 
-- [QB64](http://www.qb64.net/) :
+- [QB64](http://www.qb64.org/) :
 Simply download and install QB64 to a directory of your choice.
 QB64 is available for Windows, Linux and Mac OS X.
 
