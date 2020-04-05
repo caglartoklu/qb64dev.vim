@@ -6,6 +6,10 @@
 " LICENSE: https://github.com/caglartoklu/qb64dev.vim/blob/master/LICENSE
 " AUTHOR: caglartoklu, engintoklu
 
+" <sfile> reference must be here, not in a funcion:
+let s:script_dir = expand('<sfile>:p:h')
+let s:dict_file = s:script_dir . "/" . 'qb64keywords.txt'
+
 
 if exists('g:qb64dev_loaded') || &cp
     " If it already loaded, do not load it again.
@@ -27,6 +31,22 @@ function! s:SetDefaultSettings()
     if !exists('g:qb64dev_autofind_qb64')
         let g:qb64dev_autofind_qb64 = 1
     endif
+
+    " Use the dictionary by default.
+    if !exists('g:qb64dev_enable_dictionary')
+        let g:qb64dev_enable_dictionary = 1
+    endif
+
+    if g:qb64dev_enable_dictionary == 1
+        " Decho dict_file
+        " au BufEnter,BufNew *.bas setlocal complete+=kc:/vim/.vim/bundle/qb64dev.vim/dict/qb64keys.txt
+        let dict_file2 = escape(s:dict_file, ' \')
+        " Decho dict_file2
+        let cmd = 'au BufEnter,BufNew *.bas setlocal complete+=k' . dict_file2
+        " Decho cmd
+        exec cmd
+    endif
+
 endfunction
 
 
